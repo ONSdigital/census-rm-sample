@@ -1,5 +1,9 @@
-FROM alpine:latest
-RUN apk update && apk upgrade
-COPY build/linux-amd64/bin/samplesvc /usr/local/bin/
-EXPOSE 8081
-ENTRYPOINT ["/usr/local/bin/samplesvc"]
+FROM golang:alpine
+RUN mkdir /app
+ADD . /app/
+WORKDIR /app
+RUN apk add --no-cache git mercurial \
+    && go get github.com/gomodule/redigo/redis \
+    && go build -o main .
+EXPOSE 8125
+CMD ["./main"]

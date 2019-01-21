@@ -42,7 +42,7 @@ type sampleLink struct {
 func main() {
 	port, overridden := os.LookupEnv("PORT")
 	if !overridden {
-		port = ":8081"
+		port = ":8125"
 	}
 
 	redisPool := redis.NewPool(func() (redis.Conn, error) {
