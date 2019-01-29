@@ -83,12 +83,10 @@ func main() {
 			message := fmt.Sprintf("Could not GET %s", id)
 			fmt.Fprintf(w, "%s\n", message)
 		} else {
-			// have to swap ' for " as its a python object written and ' is not valid JSON
 			w.Header().Set(contentType, jsonUTF8)
-			value = strings.Replace(value, "'", "\"", -1)
 			fmt.Fprintf(w, "%s\n", value)
 		}
-
+	
 	})
 	log.Fatal(http.ListenAndServe(port, nil))
 }
