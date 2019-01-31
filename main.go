@@ -34,11 +34,6 @@ type info struct {
 	Built   string `json:"built"`
 }
 
-type sampleLink struct {
-	CollectionExerciseID string `json:"collectionExerciseId"`
-	SampleSummaryID      string `json:"sampleSummaryId"`
-}
-
 func main() {
 	port, overridden := os.LookupEnv("PORT")
 	if !overridden {
@@ -79,14 +74,14 @@ func main() {
 
 		if err != nil {
 			w.WriteHeader(404)
-			fmt.Println(err)
+			fmt.Println("ERROR: " + err.Error() + ", Sampleunit id: " + id)
 			message := fmt.Sprintf("Could not GET %s", id)
 			fmt.Fprintf(w, "%s\n", message)
 		} else {
 			w.Header().Set(contentType, jsonUTF8)
 			fmt.Fprintf(w, "%s\n", value)
 		}
-	
+
 	})
 	log.Fatal(http.ListenAndServe(port, nil))
 }
