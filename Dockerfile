@@ -1,5 +1,12 @@
+FROM golang:alpine AS build
+RUN mkdir /app
+ADD . /app/
+WORKDIR /app
+RUN apk add --no-cache git
+RUN go get github.com/gomodule/redigo/redis
+RUN go build -o main .
+
 FROM alpine:latest
-RUN apk update && apk upgrade
-COPY build/linux-amd64/bin/samplesvc /usr/local/bin/
-EXPOSE 8081
-ENTRYPOINT ["/usr/local/bin/samplesvc"]
+COPY --from=build /app/main .
+EXPOSE 8125
+CMD ["./main"]

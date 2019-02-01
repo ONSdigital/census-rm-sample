@@ -34,15 +34,10 @@ type info struct {
 	Built   string `json:"built"`
 }
 
-type sampleLink struct {
-	CollectionExerciseID string `json:"collectionExerciseId"`
-	SampleSummaryID      string `json:"sampleSummaryId"`
-}
-
 func main() {
 	port, overridden := os.LookupEnv("PORT")
 	if !overridden {
-		port = ":8081"
+		port = ":8125"
 	}
 
 	redisPool := redis.NewPool(func() (redis.Conn, error) {
@@ -79,13 +74,11 @@ func main() {
 
 		if err != nil {
 			w.WriteHeader(404)
-			fmt.Println(err)
+			fmt.Println("ERROR: " + err.Error() + ", Sampleunit id: " + id)
 			message := fmt.Sprintf("Could not GET %s", id)
 			fmt.Fprintf(w, "%s\n", message)
 		} else {
-			// have to swap ' for " as its a python object written and ' is not valid JSON
 			w.Header().Set(contentType, jsonUTF8)
-			value = strings.Replace(value, "'", "\"", -1)
 			fmt.Fprintf(w, "%s\n", value)
 		}
 
