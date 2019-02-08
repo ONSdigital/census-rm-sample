@@ -6,7 +6,7 @@ services:
 language: generic
 
 after_success:
-- if ([ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]) || ([ "$TRAVIS_BRANCH" == "automate-census-docker-build" ]); then
+- if ([ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]) || ([ "$TRAVIS_PULL_REQUEST_BRANCH" == "automate-census-docker-build" ]); then
   docker build -t "$DESTINATION_IMAGE_NAME" .;
   docker login -u "${DOCKER_GCP_USERNAME}" -p "${DOCKER_GCP_PASSWORD}" "${DOCKER_GCP_REGISTRY}";
   docker push "$DESTINATION_IMAGE_NAME";
@@ -15,7 +15,7 @@ after_success:
 
 env:
   global:
-    - DESTINATION_IMAGE_NAME="$DOCKER_GCP_LOCATION/census-rm-sample"
+    - DESTINATION_IMAGE_NAME="$DOCKER_GCP_LOCATION/census-rm-samplesvc-stub"
 
 branches:
   only:
