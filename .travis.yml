@@ -11,11 +11,10 @@ after_success:
   docker login -u "${DOCKER_GCP_USERNAME}" -p "${DOCKER_GCP_PASSWORD}" "${DOCKER_GCP_REGISTRY}";
   docker push "$DESTINATION_IMAGE_NAME";
   fi
-- bash <(curl -s https://codecov.io/bash)
 
 env:
   global:
-    - DESTINATION_IMAGE_NAME="$DOCKER_GCP_LOCATION/census-rm-samplesvc-stub"
+    - DESTINATION_IMAGE_NAME="eu.gcr.io/census-rm-ci/rm/census-rm-samplesvc-stub"
 
 branches:
   only:
